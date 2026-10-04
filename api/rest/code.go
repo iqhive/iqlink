@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/iqhive/runtime.link/api/internal/oas"
+	"github.com/iqhive/iqlink/api/internal/oas"
 )
 
 //go:embed code.js

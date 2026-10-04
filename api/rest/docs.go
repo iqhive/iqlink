@@ -17,15 +17,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iqhive/runtime.link/api"
-	"github.com/iqhive/runtime.link/api/internal/has"
-	http_api "github.com/iqhive/runtime.link/api/internal/http"
-	"github.com/iqhive/runtime.link/api/internal/oas"
-	"github.com/iqhive/runtime.link/api/internal/rtags"
-	"github.com/iqhive/runtime.link/api/xray"
-	"github.com/iqhive/runtime.link/pii/email"
-	"github.com/iqhive/runtime.link/xyz"
-	"github.com/iqhive/runtime.link/xyz/enum"
+	"github.com/iqhive/iqlink/api"
+	"github.com/iqhive/iqlink/api/internal/has"
+	http_api "github.com/iqhive/iqlink/api/internal/http"
+	"github.com/iqhive/iqlink/api/internal/oas"
+	"github.com/iqhive/iqlink/api/internal/rtags"
+	"github.com/iqhive/iqlink/api/xray"
+	"github.com/iqhive/iqlink/pii/email"
+	"github.com/iqhive/iqlink/xyz"
+	"github.com/iqhive/iqlink/xyz/enum"
 )
 
 func formatExampleCategory(name string) string {
@@ -805,7 +805,7 @@ func schemaFor(reg oas.Registry, val any) *oas.Schema {
 	}); ok {
 		schema.Enum = jtype.ValuesJSON()
 	} else if enum.Is(reflect.Zero(rtype).Interface()) {
-		// github.com/iqhive/runtime.link/xyz/enum types are plain named string types with no
+		// github.com/iqhive/iqlink/xyz/enum types are plain named string types with no
 		// ValuesJSON method; their values live in the enum registry.
 		schema.Type = []oas.Type{oas.Types.String}
 		schema.Enum = enum.ValuesJSON(reflect.Zero(rtype).Interface())

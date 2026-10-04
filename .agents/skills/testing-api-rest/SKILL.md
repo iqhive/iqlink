@@ -1,6 +1,6 @@
 ---
 name: testing-api-rest
-description: How to runtime-test runtime.link's api/rest package (websockets, content-type decoding, generated HTML docs/examples pages) end-to-end on a local box.
+description: How to runtime-test iqlink's api/rest package (websockets, content-type decoding, generated HTML docs/examples pages) end-to-end on a local box.
 ---
 
 # Testing `api/rest` at runtime
@@ -13,8 +13,8 @@ that replaces the module with the local checkout:
 ```
 module wstest
 go 1.24
-require runtime.link v0.0.0
-replace runtime.link => /home/ubuntu/repos/runtime.link
+require github.com/iqhive/iqlink v0.0.0
+replace github.com/iqhive/iqlink => /home/ubuntu/repos/iqlink
 ```
 
 Then `rest.Handler(nil, &impl)` + `http.ListenAndServe`. Declare endpoints on a

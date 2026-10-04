@@ -1,5 +1,5 @@
 /*
-Package cmdl provides a command-line interface linker for runtime.link.
+Package cmdl provides a command-line interface linker for iqlink.
 
 # Function Tags
 
@@ -38,7 +38,7 @@ package cmdl
 import (
 	"os/exec"
 
-	"github.com/iqhive/runtime.link/api"
+	"github.com/iqhive/iqlink/api"
 )
 
 // API implements the [api.Linker] interface.

@@ -5,7 +5,7 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"github.com/iqhive/runtime.link/qnq"
+	"github.com/iqhive/iqlink/qnq"
 )
 
 func TestPubSub(t *testing.T) {

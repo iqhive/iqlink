@@ -1,4 +1,4 @@
-// Package wasm provides a runtime.link API-based ABI for WebAssembly.
+// Package wasm provides an iqlink API-based ABI for WebAssembly.
 //
 // When the hosted API implements [api.WithSource] and the Go parameter
 // (or result) count matches the expanded wasm value-type count,
@@ -6,12 +6,12 @@
 // on the host function. Multi-slot Go values that expand to several wasm
 // params are left unnamed.
 //
-// NOTE until Go has support for multiple return values, the runtime.link WASM ABI will always use a
+// NOTE until Go has support for multiple return values, the iqlink WASM ABI will always use a
 // single return value for all functions.
 //
-// # The "github.com/iqhive/runtime.link" WASM interface
+// # The "github.com/iqhive/iqlink" WASM interface
 //
-// This module is provided by a runtime.link-aware host and provides the capability to call
+// This module is provided by an iqlink-aware host and provides the capability to call
 // APIs dynamically at runtime, all WASM hosts and modules should implement the following;
 //
 //	dlopen(module_str, module_len i32) i64
@@ -137,8 +137,8 @@ import (
 	"io/fs"
 	"time"
 
-	"github.com/iqhive/runtime.link/api"
-	"github.com/iqhive/runtime.link/ffi"
+	"github.com/iqhive/iqlink/api"
+	"github.com/iqhive/iqlink/ffi"
 	"github.com/tetratelabs/wazero"
 	"github.com/tetratelabs/wazero/imports/wasi_snapshot_preview1"
 )

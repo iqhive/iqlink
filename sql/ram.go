@@ -8,8 +8,8 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/iqhive/runtime.link/sql/std/sodium"
-	"github.com/iqhive/runtime.link/xyz"
+	"github.com/iqhive/iqlink/sql/std/sodium"
+	"github.com/iqhive/iqlink/xyz"
 )
 
 var stub struct {

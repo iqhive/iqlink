@@ -1,36 +1,70 @@
-# runtime.link &nbsp;[![Go Reference](https://pkg.go.dev/badge/runtime.link.svg)](https://pkg.go.dev/runtime.link)
+# iqlink &nbsp;[![Go Reference](https://pkg.go.dev/badge/github.com/iqhive/iqlink.svg)](https://pkg.go.dev/github.com/iqhive/iqlink)
 
-The runtime.link project provides a dictionary for representing software interfaces
-through Go source. It also provides several Go linkers that enable you to link to
-these interfaces at runtime. They can be connected via network protocols (ie. HTTP),
-through command line interfaces, or through supported platform-native ABIs.
+<p align="center">
+  <img src="docs/hero.svg" width="836" alt="Animated terminal: one Go API specification is served by rest.Handler and called through a typed client, where GET /greet/gopher returns hello, gopher and GET /add?a=2&amp;b=40 returns 42; the same struct then runs as the hello command line and, linked to a stub, returns not implemented.">
+</p>
 
-The project is still in development and although we don't plan to make any major changes
-to established components before the first stable release, there may be continue to be
-minor breaking changes here and there as we work to refine the exported interfaces.
+## Background:
+
+This project was originally published as open source by IQ Hive
+under the runtime.link import path. Following a maintainer’s departure
+from IQ Hive, the vanity domain was redirected to that maintainer’s
+separate repository without prior notice to IQ Hive. Development
+has continued independently in both repositories. IQ Hive’s version now
+uses direct GitHub import paths so applications can reliably depend on
+the implementation maintained here as it contains features that other
+open source IQ Hive project depend on.
+
+In order to avoid confusion between the 2 similar-named but divergent
+feature-sets, this project was renamed iqlink.
+
+iqlink will continue to automatically import features from the
+runtime.link implementation for a period of time, or until such time
+as the features conflict in a way that prevents this happening.
+
+## Summary
+
+One Go API specification can support several ways of calling the same software.
+Define the interface in Go source, then use iqlink's runtime linkers to connect it
+to an implementation.
+
+iqlink provides a dictionary for expressing software interfaces in Go source.
+Its Go linkers connect those interface definitions to implementations at runtime
+through network protocols such as HTTP, command line interfaces, or native
+application binary interfaces (ABIs) on supported platforms.
+
+- Describe operations with typed structures, function fields and tags that record
+  how each operation is exposed.
+- Call or serve HTTP APIs, run command line programs, and connect to native
+  libraries through supported ABIs.
+- Inspect calls with `xray` and create empty implementations with `stub` for
+  development and debugging.
+
+iqlink is still in development. We aim to keep established components stable,
+but minor breaking changes remain possible before the first stable release.
 
 Example:
 ```go
-// Package example provides the specification for the runtime.link example API.
+// Package example provides the specification for the iqlink example API.
 package example
 
 import (
 	"log"
 	"os"
 
-	"runtime.link/api"
+	"github.com/iqhive/iqlink/api"
 )
 
 // API specification structure, typically named API for general structures, may
 // be more suitably named Functions, Library or Command when the API is
-// restricted to a specific runtime.link layer. Any Go comments in the source
+// restricted to a specific iqlink layer. Any Go comments in the source
 // are intended to document design notes and ideas. This leaves Go struct tags
 // for recording developer-facing documentation.
 type API struct {
 	api.Specification `api:"Example" cmd:"example" lib:"libexample"
-		is an example of a runtime.link API structure.` // this section of the tag contains documentation.
+		is an example of an iqlink API structure.` // this section of the tag contains documentation.
 
-	// HelloWorld includes runtime.link tags that specify how the function is called
+	// HelloWorld includes iqlink tags that specify how the function is called
 	// across different link-layers. Typically, a context.Context argument and error
 	// return value should be included here, they are omitted here for brevity.
 	HelloWorld func() string `cmdl:"hello_world" link:"example_helloworld func()$char" rest:"GET /hello_world"
@@ -52,13 +86,18 @@ func New() API {
 ## More Practical Examples
 
 * [Quickly use REST API endpoints in Go without the need for a Go 'client library'](api/example/Link.md)
+* [examples/simple](examples/simple): a specification and implementation run as a command line with `cmdl`.
+* [examples/http](examples/http): a notes API served over HTTP by one command and called by another, sharing one specification package.
+* [examples/advanced](examples/advanced): a bookshop with namespaces, declared errors and HTTP statuses, token authentication and authorization, error redaction, a dependency on a second API, request interception and a `stub` test double.
+
+Run any of them with `go run`, for example `go run ./examples/advanced`; each directory's tests check the output shown in its comments.
 
 ## Runtime Linkers.
 Each linker lives under the `api` package and enables an API to be linked against a host
 implementation via a standard communication protocol. A linker can also serve a host
 implementation written in Go.
 
-Currently available runtime.linkers include:
+Currently available iqlink linkers include:
 
     * cmdl - parse command line arguments or execute command line programs.
     * link - generate c-shared export directives or dynamicaly link to shared libraries (via ABI).
@@ -97,10 +136,10 @@ single-file specs prefer `//go:embed api.go`.
 
 Apart from what's on the Roadmap, we cannot accept any pull requests for new top level
 packages at this time, although you are welcome to start a GitHub Discussion for any
-ideas you may have, our current goal for runtime.link is to stick to a well-defined
+ideas you may have, our current goal for iqlink is to stick to a well-defined
 and cohesive design space.
 
-runtime.link aims to be dependency free, we will not accept any pull requests that add
+iqlink aims to be dependency free, we will not accept any pull requests that add
 any additional Go dependencies to the project.
 
 **NOTE**: we adopt a different convention for Go struct tags, which are permitted to be
@@ -140,7 +179,7 @@ golangci-lint.yml
 linters-settings:
   govet:
     disable:
-      - structtag # support runtime.link convention.
+      - structtag # support iqlink convention.
 ```
 
 ## Roadmap

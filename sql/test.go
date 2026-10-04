@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"sync/atomic"
 
-	"github.com/iqhive/runtime.link/api/xray"
-	"github.com/iqhive/runtime.link/xyz"
+	"github.com/iqhive/iqlink/api/xray"
+	"github.com/iqhive/iqlink/xyz"
 )
 
 // Test the implementation of a [Database] against the SODIUM specification.

@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iqhive/runtime.link/api/xray"
+	"github.com/iqhive/iqlink/api/xray"
 )
 
 var (

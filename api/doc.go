@@ -15,8 +15,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/iqhive/runtime.link/api/test"
-	"github.com/iqhive/runtime.link/api/xray"
+	"github.com/iqhive/iqlink/api/test"
+	"github.com/iqhive/iqlink/api/xray"
 )
 
 // Sampler reconstructs the downstream HTTP exchange for a function call from
@@ -366,7 +366,7 @@ func restRoute(tags reflect.StructTag) string {
 	}
 }
 
-// cleanPathCaptures rewrites runtime.link path capture syntax "{name=%v}" into
+// cleanPathCaptures rewrites iqlink path capture syntax "{name=%v}" into
 // the plain "{name}" form for display, so a route reads as a conventional URL
 // template rather than exposing the internal format verb.
 func cleanPathCaptures(path string) string {

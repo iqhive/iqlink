@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/iqhive/runtime.link/api"
+	"github.com/iqhive/iqlink/api"
 )
 
 // sampleAPI is a minimal rest-tagged API whose call is captured in the trace.

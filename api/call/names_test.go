@@ -3,7 +3,7 @@ package call
 import (
 	"testing"
 
-	"github.com/iqhive/runtime.link/api/call/internal/ffi"
+	"github.com/iqhive/iqlink/api/call/internal/ffi"
 )
 
 func TestGoArgName(t *testing.T) {

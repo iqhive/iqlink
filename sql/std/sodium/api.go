@@ -3,8 +3,8 @@ package sodium
 import (
 	"context"
 
-	"github.com/iqhive/runtime.link/api"
-	"github.com/iqhive/runtime.link/xyz"
+	"github.com/iqhive/iqlink/api"
+	"github.com/iqhive/iqlink/xyz"
 )
 
 type API struct {

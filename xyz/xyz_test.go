@@ -7,7 +7,7 @@ import (
 	"io"
 	"testing"
 
-	"github.com/iqhive/runtime.link/xyz"
+	"github.com/iqhive/iqlink/xyz"
 )
 
 func TestTagged(t *testing.T) {

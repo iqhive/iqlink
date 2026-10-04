@@ -9,9 +9,9 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/iqhive/runtime.link/api"
-	"github.com/iqhive/runtime.link/api/rest"
-	"github.com/iqhive/runtime.link/api/test"
+	"github.com/iqhive/iqlink/api"
+	"github.com/iqhive/iqlink/api/rest"
+	"github.com/iqhive/iqlink/api/test"
 )
 
 // fakeHistory is an in-memory test.History for exercising the /testruns routes.

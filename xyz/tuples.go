@@ -3,7 +3,7 @@ package xyz
 import (
 	"encoding/json"
 
-	"github.com/iqhive/runtime.link/api/xray"
+	"github.com/iqhive/iqlink/api/xray"
 )
 
 // Pair holds two values.

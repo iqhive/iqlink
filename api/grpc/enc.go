@@ -1,7 +1,7 @@
 // Package grpc implements Protocol Buffer codecs.
 //
-// A future gRPC linker can use [runtime.link/api.Function.Args] for named
-// request fields when the API implements [runtime.link/api.WithSource].
+// A future gRPC linker can use [github.com/iqhive/iqlink/api.Function.Args] for named
+// request fields when the API implements [github.com/iqhive/iqlink/api.WithSource].
 package grpc
 
 import (
@@ -19,7 +19,7 @@ type Encoder struct {
 	w io.Writer
 }
 
-//go:linkname write github.com/iqhive/runtime.link/api/grpc.write_impl
+//go:linkname write github.com/iqhive/iqlink/api/grpc.write_impl
 //go:noescape
 func write(w io.Writer, buf []byte) (int, error)
 
@@ -171,15 +171,15 @@ func (e *Encoder) encode(n wireNumber, rvalue reflect.Value) error {
 	return errors.New("unsupported type")
 }
 
-//go:linkname sizeof_map_noescape github.com/iqhive/runtime.link/api/grpc.sizeof_map
+//go:linkname sizeof_map_noescape github.com/iqhive/iqlink/api/grpc.sizeof_map
 //go:noescape
 func sizeof_map_noescape(n wireNumber, rvalue reflect.Value) (int, int)
 
-//go:linkname encode_map_noescape github.com/iqhive/runtime.link/api/grpc.encode_map
+//go:linkname encode_map_noescape github.com/iqhive/iqlink/api/grpc.encode_map
 //go:noescape
 func encode_map_noescape(e *Encoder, n wireNumber, rvalue reflect.Value) error
 
-//go:linkname reflect_new_at_noescape github.com/iqhive/runtime.link/api/grpc.reflect_new_at
+//go:linkname reflect_new_at_noescape github.com/iqhive/iqlink/api/grpc.reflect_new_at
 //go:noescape
 func reflect_new_at_noescape(t reflect.Type, p unsafe.Pointer) reflect.Value
 

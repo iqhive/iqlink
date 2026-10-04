@@ -1,4 +1,4 @@
-module github.com/iqhive/runtime.link
+module github.com/iqhive/iqlink
 
 go 1.25.0
 

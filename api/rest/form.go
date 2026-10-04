@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"strings"
 
-	http_api "github.com/iqhive/runtime.link/api/internal/http"
-	"github.com/iqhive/runtime.link/api/internal/oas"
+	http_api "github.com/iqhive/iqlink/api/internal/http"
+	"github.com/iqhive/iqlink/api/internal/oas"
 )
 
 var (

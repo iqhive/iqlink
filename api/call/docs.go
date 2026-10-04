@@ -1,5 +1,5 @@
 /*
-Package call provides shared library linker for runtime.link (WORK-IN-PROGRESS).
+Package call provides shared library linker for iqlink (WORK-IN-PROGRESS).
 
 # Link Tags
 

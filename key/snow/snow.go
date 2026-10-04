@@ -19,7 +19,7 @@ import (
 	"sync"
 	"time"
 
-	ident "github.com/iqhive/runtime.link/key/internal/id"
+	ident "github.com/iqhive/iqlink/key/internal/id"
 )
 
 // epoch is the Snowflake epoch (Twitter's, 2010-11-04) in milliseconds. The

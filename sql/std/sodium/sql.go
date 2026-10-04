@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/iqhive/runtime.link/xyz"
+	"github.com/iqhive/iqlink/xyz"
 )
 
 // Database that supports the SODIUM interface.

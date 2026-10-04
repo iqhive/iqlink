@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	apihttp "github.com/iqhive/runtime.link/api/internal/http"
+	apihttp "github.com/iqhive/iqlink/api/internal/http"
 )
 
 // failingBody stands in for a response whose body cannot be read, so the

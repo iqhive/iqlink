@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/iqhive/runtime.link/api"
-	"github.com/iqhive/runtime.link/api/example/petstore" // use your own package import path here.
-	"github.com/iqhive/runtime.link/api/rest"
+	"github.com/iqhive/iqlink/api"
+	"github.com/iqhive/iqlink/api/example/petstore" // use your own package import path here.
+	"github.com/iqhive/iqlink/api/rest"
 )
 
 func main() {

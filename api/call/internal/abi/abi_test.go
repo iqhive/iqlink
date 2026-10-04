@@ -3,7 +3,7 @@ package abi_test
 import (
 	"testing"
 
-	"github.com/iqhive/runtime.link/api/call/internal/abi"
+	"github.com/iqhive/iqlink/api/call/internal/abi"
 )
 
 func TestVariant(t *testing.T) {

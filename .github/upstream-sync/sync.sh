@@ -20,7 +20,8 @@
 set -euo pipefail
 
 UPSTREAM_URL=${UPSTREAM_URL:-https://github.com/quaadgras/runtime.link.git}
-MODULE=github.com/iqhive/runtime.link
+MODULE=github.com/iqhive/iqlink
+NAME=iqlink
 SRC=quaadgras/main
 [ -z "${TEST_BRANCH:-}" ] || SRC=origin/$TEST_BRANCH
 HERE=$(cd "$(dirname "$0")" && pwd)
@@ -52,15 +53,28 @@ keep_test_output() {
 # translate rewrites upstream's names to the fork's in the checkout it runs in.
 # The merge applies it to upstream's side, both the merge base and the commit
 # being merged, so the fork's renames don't show up as conflicts. It mirrors
-# what the fork did when it renamed the module: import paths, go:linkname
-# targets, path references in comments, the WASM ffi imports and the quoted
-# WASM host module name. The [runtime.link/...] doc links, prose, and the guest's
+# the fork's rename to iqlink: the module path in go.mod files, import paths
+# and other path references, go:linkname targets, doc links, the quoted WASM
+# module names, and the project name in comments and Markdown. The guest's
 # "//go:wasmimport runtime.link dlopen|dlsym" lines stay as upstream has them.
 translate() {
-	sed -i "s|^module runtime\.link\$|module $MODULE|" go.mod
-	{ git grep -lz 'runtime\.link' -- '*.go' || true; } | xargs -0r sed -i \
-		-e "s#\(^\|[^[]\)runtime\.link/#\1$MODULE/#g" \
-		-e "s#\"runtime\.link\"#\"$MODULE\"#g"
+	local f
+	git ls-files -z '*go.mod' | while IFS= read -r -d '' f; do
+		sed -i -e "s#^module runtime\.link\$#module $MODULE#" \
+			-e "s#^module runtime\.link/#module $MODULE/#" \
+			-e "s#^replace runtime\.link =>#replace $MODULE =>#" \
+			-e "s#^\(\s*\)runtime\.link v#\1$MODULE v#" "$f"
+		[ "$f" = go.mod ] || (cd "$(dirname "$f")" && go mod edit -fmt)
+	done
+	{ git grep -lz 'runtime\.link' -- '*.go' '*.md' || true; } | xargs -0r sed -i \
+		-e '/^\/\/go:wasmimport runtime\.link /b' \
+		-e "s#pkg\.go\.dev/badge/runtime\.link\.svg#pkg.go.dev/badge/$MODULE.svg#g" \
+		-e "s#pkg\.go\.dev/runtime\.link\b#pkg.go.dev/$MODULE#g" \
+		-e "s#runtime\.link/#$MODULE/#g" \
+		-e "s#\"runtime\.link\"#\"$MODULE\"#g" \
+		-e "s#runtime\.linkers#$NAME linkers#g" \
+		-e "s#\b\([Aa]\) runtime\.link\b#\1n $NAME#g" \
+		-e "s#runtime\.link#$NAME#g"
 }
 
 # translated_commit prints a commit holding <commit>'s tree after translate.
@@ -89,6 +103,9 @@ merge_translated() {
 		exit 1
 	fi
 	tree=$(head -n1 <<<"$out")
+	# The merge as git left it, before Codex, for check_attribution. Codex
+	# can't write to .git, so it can't move this ref.
+	git update-ref refs/upstream-sync/premerge "$(git commit-tree "$tree" -p HEAD -m "merge before Codex")"
 	git read-tree -m -u HEAD "$tree"
 	if [ "$rc" = 1 ]; then
 		# Replace each conflicted path's merged entry with its unmerged stages.
@@ -102,12 +119,14 @@ merge_translated() {
 	echo "Merge remote-tracking branch '$SRC' into qqmerge" >"$gitdir/MERGE_MSG"
 }
 
-# normalize rewrites upstream's module path to the fork's and, once nothing is
-# left unmerged, formats the changed Go files and tidies go.mod the way CI
-# expects.
+# normalize rewrites upstream's module path to the fork's in imports and doc
+# links and, once nothing is left unmerged, formats the changed Go files and
+# tidies go.mod the way CI expects.
 normalize() {
 	{ git grep -lz '"runtime\.link/' -- '*.go' || true; } |
 		xargs -0r sed -i "s|\"runtime\\.link/|\"$MODULE/|g"
+	{ git grep -lz '\[runtime\.link/' -- '*.go' || true; } |
+		xargs -0r sed -i "s|\[runtime\\.link/|[$MODULE/|g"
 	[ -z "$(unmerged)" ] || return 0
 	changed_go | xargs -r gofmt -s -w || true
 	go mod tidy
@@ -134,6 +153,31 @@ checks() {
 identity() {
 	git config user.name "github-actions[bot]"
 	git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+	# No hook, such as a prepare-commit-msg that adds a Co-authored-by
+	# trailer, may change the commits this script makes.
+	git config core.hooksPath /dev/null
+}
+
+# ATTRIBUTION matches the authorship notes an agent may leave behind.
+ATTRIBUTION='co-authored-by:|(generated|written|created|authored|assisted|resolved|fixed)[ -](by|with|using)[ :]+(openai |the )?(codex|chatgpt|gpt|openai|an? ai)|\b(codex|openai|chatgpt)\b|🤖'
+
+# summary prints Codex's final message without trailer or attribution lines,
+# so they never reach a commit message.
+summary() {
+	grep -viE "^[[:space:]]*[A-Za-z]+(-[A-Za-z]+)*-by:|$ATTRIBUTION" "$TMP/codex-summary.md" || true
+}
+
+# check_attribution fails if Codex's edits, staged with any new files, add
+# attribution to the code. It compares them with the merge before Codex ran.
+check_attribution() {
+	local added
+	added=$(git diff --cached refs/upstream-sync/premerge -- . | grep -E '^\+' | grep -v '^+++' |
+		grep -inE "$ATTRIBUTION" || true)
+	if [ -n "$added" ]; then
+		echo "::error::Codex added attribution to the code; refusing to continue."
+		echo "$added"
+		exit 1
+	fi
 }
 
 commit_message() {
@@ -144,9 +188,9 @@ commit_message() {
 		git log --reverse --format='- %h %s' "${BASE:?}..${UPSTREAM:?}"
 		if [ -s "$TMP/codex-summary.md" ]; then
 			echo
-			echo "Codex resolved this merge in ${RUN_URL:-the upstream-sync workflow}:"
+			echo "Resolved in ${RUN_URL:-the upstream-sync workflow}:"
 			echo
-			cat "$TMP/codex-summary.md"
+			summary
 		fi
 	} >"$TMP/commit-msg"
 }
@@ -229,6 +273,7 @@ package_result() {
 	# index still lists them as conflicts. Leftover markers are caught by the
 	# verify job's checks.
 	git add -A
+	check_attribution
 	commit_message
 	commit=$(git commit-tree "$(git write-tree)" -p HEAD -p "${UPSTREAM:?}" -F "$TMP/commit-msg")
 	git update-ref refs/heads/codex-result "$commit"

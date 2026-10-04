@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/iqhive/runtime.link/api"
-	"github.com/iqhive/runtime.link/api/rest"
+	"github.com/iqhive/iqlink/api"
+	"github.com/iqhive/iqlink/api/rest"
 )
 
 type interceptedAPI struct {

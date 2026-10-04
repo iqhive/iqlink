@@ -3,9 +3,9 @@ package arm64
 import (
 	"errors"
 
-	"github.com/iqhive/runtime.link/api/call/internal/abi"
-	"github.com/iqhive/runtime.link/api/call/internal/cpu"
-	"github.com/iqhive/runtime.link/xyz"
+	"github.com/iqhive/iqlink/api/call/internal/abi"
+	"github.com/iqhive/iqlink/api/call/internal/cpu"
+	"github.com/iqhive/iqlink/xyz"
 )
 
 const (

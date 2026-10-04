@@ -9,8 +9,8 @@ import (
 	"github.com/tetratelabs/wazero"
 	wasm_api "github.com/tetratelabs/wazero/api"
 
-	"github.com/iqhive/runtime.link/api"
-	"github.com/iqhive/runtime.link/ffi"
+	"github.com/iqhive/iqlink/api"
+	"github.com/iqhive/iqlink/ffi"
 )
 
 func goTypeToWasmTypes(values []wasm_api.ValueType, t reflect.Type) []wasm_api.ValueType {
@@ -219,7 +219,7 @@ func applyWasmNames(b wazero.HostFunctionBuilder, fn api.Function, params, resul
 }
 
 func dynamic_link(r wazero.Runtime, child *ffi.API, impls []api.WithSpecification) {
-	module := r.NewHostModuleBuilder("github.com/iqhive/runtime.link")
+	module := r.NewHostModuleBuilder("github.com/iqhive/iqlink")
 	type Function struct {
 		Pointer api.Function
 		Args    [5][]RegisterMapping

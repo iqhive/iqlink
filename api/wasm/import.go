@@ -1,8 +1,8 @@
 package wasm
 
 import (
-	"github.com/iqhive/runtime.link/api"
-	"github.com/iqhive/runtime.link/ffi"
+	"github.com/iqhive/iqlink/api"
+	"github.com/iqhive/iqlink/ffi"
 	"github.com/tetratelabs/wazero"
 )
 

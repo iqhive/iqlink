@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/iqhive/runtime.link/api/wasm"
-	"github.com/iqhive/runtime.link/api/wasm/internal/example"
-	"github.com/iqhive/runtime.link/ffi"
+	"github.com/iqhive/iqlink/api/wasm"
+	"github.com/iqhive/iqlink/api/wasm/internal/example"
+	"github.com/iqhive/iqlink/ffi"
 )
 
 var FFI = wasm.Import[ffi.API]()

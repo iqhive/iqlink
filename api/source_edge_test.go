@@ -311,7 +311,7 @@ func TestLookupSourceMissing(t *testing.T) {
 	if lookupSource("") != nil {
 		t.Error("empty pkg path")
 	}
-	if lookupSource("github.com/iqhive/runtime.link/api/does-not-exist") != nil {
+	if lookupSource("github.com/iqhive/iqlink/api/does-not-exist") != nil {
 		t.Error("missing package")
 	}
 }

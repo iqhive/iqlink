@@ -80,6 +80,8 @@ jobs:
           prompt-file: ${{ runner.temp }}/codex-prompt.md
           output-file: ${{ runner.temp }}/codex-summary.md
           effort: high
+          # Codex adds a Co-authored-by trailer to commits by default; turn it off.
+          codex-args: '["-c", "commit_attribution=\"\""]'
 
       - name: Package the Codex result for the verify job
         if: steps.sync.outputs.needs_codex == 'true'

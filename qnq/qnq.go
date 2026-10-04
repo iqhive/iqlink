@@ -38,7 +38,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/iqhive/runtime.link/api/xray"
+	"github.com/iqhive/iqlink/api/xray"
 )
 
 type raise string

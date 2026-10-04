@@ -1,6 +1,6 @@
 package names
 
-import "github.com/iqhive/runtime.link/pii"
+import "github.com/iqhive/iqlink/pii"
 
 type (
 	// User is a string that represents a user name.
