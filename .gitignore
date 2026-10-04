@@ -14,6 +14,7 @@
 !Makefile
 !go.mod
 !go.sum
+!docs/hero.svg
 !zgo/internal/source/*.zig
 !zgo/internal/source/*.zon
 !.github/upstream-sync/sync.sh

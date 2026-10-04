@@ -6,9 +6,9 @@ import (
 	"embed"
 	"io/fs"
 
-	"github.com/iqhive/runtime.link/api"
-	"github.com/iqhive/runtime.link/api/stub"
-	"github.com/iqhive/runtime.link/xyz"
+	"github.com/iqhive/iqlink/api"
+	"github.com/iqhive/iqlink/api/stub"
+	"github.com/iqhive/iqlink/xyz"
 )
 
 //go:embed *.go
@@ -18,7 +18,7 @@ var source embed.FS
 // [api.Function.Outs] are populated.
 func (API) Source() fs.FS { return source }
 
-// API specification, named this way, as it is the runtime.link convention.
+// API specification, named this way, as it is the iqlink convention.
 // Typically this will be placed in a file called api.go and will be at the
 // top of the file, so that it can act as a table of contents for the API.
 type API struct {

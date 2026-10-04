@@ -1,7 +1,7 @@
 # Quickly use REST API endpoints in Go without the need for a Go 'client library'
 
 In this example, we'll show you how JSON-based REST APIs can be represented
-using a Go runtime.link structure so that you can link your software to be
+using a Go iqlink structure so that you can link your software to be
 able to call the endpoints you need to use. For this example, we will be
 representing the Swagger Petstore API.
 
@@ -17,14 +17,14 @@ the first step, deciding where your representation is going to live. We
 recommend that you create a new package for each API that you want to
 represent. This will help keep any APIs you are using appropriately
 namespaced. In this case, we'll create a new package called `petstore`
-and add an initial runtime.link API specification.
+and add an initial iqlink API specification.
 
 ```go
 package petstore
 
-import "runtime.link/api"
+import "github.com/iqhive/iqlink/api"
 
-// API specification, named this way, as it is the runtime.link convention.
+// API specification, named this way, as it is the iqlink convention.
 // Typically this will be placed in a file called api.go and will be at the
 // top of the file, so that it can act as a table of contents for the API.
 type API struct {
@@ -46,8 +46,8 @@ user of the representation.
 Here's an example of what this could look like, although keep in mind that
 you can change the names of functions, types and struct fields to fit
 your own design style. The naming conventions in this example follow the
-runtime.link guidelines, as outlined in the readme. These are important 
-to follow if you want your API to be included in the runtime.link project.
+iqlink guidelines, as outlined in the readme. These are important 
+to follow if you want your API to be included in the iqlink project.
 
 Note: Use https://mholt.github.io/json-to-go/ to quickly create struct types.
 
@@ -55,11 +55,11 @@ Note: Use https://mholt.github.io/json-to-go/ to quickly create struct types.
 package petstore
 
 import (
-	"runtime.link/api"
-	"runtime.link/xyz"
+	"github.com/iqhive/iqlink/api"
+	"github.com/iqhive/iqlink/xyz"
 )
 
-// API specification, named this way, as it is the runtime.link convention.
+// API specification, named this way, as it is the iqlink convention.
 // Typically this will be placed in a file called api.go and will be at the
 // top of the file, so that it can act as a table of contents for the API.
 type API struct {
@@ -102,7 +102,7 @@ var StatusValues = xyz.AccessorFor(Status.Values)
 ## Importing the API
 
 Now that we have represented the API and placed it inside of a package, 
-it can be linked through the API runtime.link layer. This will allow
+it can be linked through the API iqlink layer. This will allow
 the REST endpoints of the API to be callable as if they were Go functions.
 
 ```go
@@ -115,9 +115,9 @@ import (
 	"net/http"
 	"os"
 
-	"runtime.link/api"
-	"runtime.link/api/rest"
-	"runtime.link/api/rest/example/petstore" // use your own package import path here.
+	"github.com/iqhive/iqlink/api"
+	"github.com/iqhive/iqlink/api/rest"
+	"github.com/iqhive/iqlink/api/rest/example/petstore" // use your own package import path here.
 )
 
 func main() {

@@ -13,8 +13,8 @@ import (
 	"reflect"
 	"unsafe"
 
-	"github.com/iqhive/runtime.link/api/call/internal/cpu"
-	"github.com/iqhive/runtime.link/xyz"
+	"github.com/iqhive/iqlink/api/call/internal/cpu"
+	"github.com/iqhive/iqlink/xyz"
 )
 
 // Location of a function's argument or return value.

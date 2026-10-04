@@ -3,7 +3,7 @@ package abi
 import (
 	"errors"
 
-	"github.com/iqhive/runtime.link/api/call/internal/cpu"
+	"github.com/iqhive/iqlink/api/call/internal/cpu"
 )
 
 // CGO implementation is used to call the function. ie. with dyncall.

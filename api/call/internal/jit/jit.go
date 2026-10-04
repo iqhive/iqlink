@@ -3,7 +3,7 @@ Package jit provides a safe alternative to [reflect.MakeFunc] with support for t
 
 This package is still in an experimental proof-of-concept phase and is not quite
 ready for general use. The aim is to provide a safe way to create small optimised
-functions at runtime. This package is included in runtime.link to serve as an
+functions at runtime. This package is included in iqlink to serve as an
 optimisation pathway for [api.Linker] implementations.
 */
 package jit
@@ -14,8 +14,8 @@ import (
 	"runtime"
 	"unsafe"
 
-	"github.com/iqhive/runtime.link/api/call/internal/bin"
-	"github.com/iqhive/runtime.link/api/call/internal/bin/std/cpu"
+	"github.com/iqhive/iqlink/api/call/internal/bin"
+	"github.com/iqhive/iqlink/api/call/internal/bin/std/cpu"
 )
 
 // Implementation for a function.

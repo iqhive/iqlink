@@ -7,8 +7,8 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/iqhive/runtime.link/api"
-	"github.com/iqhive/runtime.link/api/xray"
+	"github.com/iqhive/iqlink/api"
+	"github.com/iqhive/iqlink/api/xray"
 )
 
 var API api.Linker[func(string, ...any) string, func(string, string, ...any) (int, error)] = linker{}

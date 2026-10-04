@@ -4,11 +4,11 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/iqhive/runtime.link/api/internal/oas"
-	"github.com/iqhive/runtime.link/xyz/enum"
+	"github.com/iqhive/iqlink/api/internal/oas"
+	"github.com/iqhive/iqlink/xyz/enum"
 )
 
-// Fruit is a github.com/iqhive/runtime.link/xyz/enum type: a plain named string type whose
+// Fruit is a github.com/iqhive/iqlink/xyz/enum type: a plain named string type whose
 // values live in the enum registry rather than in a ValuesJSON method.
 type Fruit string
 

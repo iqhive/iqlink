@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/iqhive/runtime.link/api/xray"
+	"github.com/iqhive/iqlink/api/xray"
 )
 
 func TestErrors(t *testing.T) {

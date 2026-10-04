@@ -6,9 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/iqhive/runtime.link/api"
-	"github.com/iqhive/runtime.link/api/internal/oas"
-	"github.com/iqhive/runtime.link/xyz"
+	"github.com/iqhive/iqlink/api"
+	"github.com/iqhive/iqlink/api/internal/oas"
+	"github.com/iqhive/iqlink/xyz"
 )
 
 // loginError mimics an error type registered against an API via

@@ -7,15 +7,15 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/iqhive/runtime.link/api"
-	"github.com/iqhive/runtime.link/xyz"
+	"github.com/iqhive/iqlink/api"
+	"github.com/iqhive/iqlink/xyz"
 )
 
 func TestStructure(t *testing.T) {
 	var ctx = context.Background()
 	var Example struct {
 		_ api.Specification `
-			This is an example runtime.link structure.`
+			This is an example iqlink structure.`
 		HelloWorld func() string `tag:"value"
 			returns "Hello World"`
 	}
@@ -23,8 +23,8 @@ func TestStructure(t *testing.T) {
 		return "Hello World"
 	}
 	structure := api.StructureOf(&Example)
-	if structure.Docs != "This is an example runtime.link structure." {
-		t.Errorf("got %q, want %q", structure.Docs, "is an example runtime.link structure.")
+	if structure.Docs != "This is an example iqlink structure." {
+		t.Errorf("got %q, want %q", structure.Docs, "is an example iqlink structure.")
 	}
 	if len(structure.Functions) != 1 {
 		t.Errorf("got %d functions, want %d", len(structure.Functions), 1)
@@ -138,7 +138,7 @@ func TestString(t *testing.T) {
 func TestEquals(t *testing.T) {
 	var Example struct {
 		_ api.Specification `
-			This is an example runtime.link structure.`
+			This is an example iqlink structure.`
 		HelloWorld func() string `tag:"value"
 			returns "Hello World"`
 	}

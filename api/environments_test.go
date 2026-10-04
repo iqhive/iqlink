@@ -5,7 +5,7 @@ import (
 	"iter"
 	"testing"
 
-	"github.com/iqhive/runtime.link/api/test"
+	"github.com/iqhive/iqlink/api/test"
 )
 
 // envSuite is a minimal test suite that records which environment instance ran
@@ -27,8 +27,8 @@ func TestEnvironmentsDispatch(t *testing.T) {
 	var ran string
 	history := stubHistory{}
 	envs := Environments{
-		"":   &envSuite{name: "default", ran: &ran, TestingFramework: TestingFramework{History: history}},
-		"st": &envSuite{name: "st", ran: &ran, TestingFramework: TestingFramework{History: history}},
+		"":    &envSuite{name: "default", ran: &ran, TestingFramework: TestingFramework{History: history}},
+		"st":  &envSuite{name: "st", ran: &ran, TestingFramework: TestingFramework{History: history}},
 		"dev": &envSuite{name: "dev", ran: &ran, TestingFramework: TestingFramework{History: history}},
 	}
 	doc := Documentation(func(ctx context.Context) (Examples, error) { return envs, nil })

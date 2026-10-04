@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/iqhive/runtime.link/api"
+	"github.com/iqhive/iqlink/api"
 )
 
 func TestParameterNames(t *testing.T) {

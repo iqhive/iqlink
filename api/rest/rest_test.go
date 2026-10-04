@@ -16,10 +16,10 @@ import (
 	"testing/fstest"
 	"time"
 
-	"github.com/iqhive/runtime.link/api"
-	http_api "github.com/iqhive/runtime.link/api/internal/http"
-	"github.com/iqhive/runtime.link/api/rest"
-	"github.com/iqhive/runtime.link/xyz"
+	"github.com/iqhive/iqlink/api"
+	http_api "github.com/iqhive/iqlink/api/internal/http"
+	"github.com/iqhive/iqlink/api/rest"
+	"github.com/iqhive/iqlink/xyz"
 )
 
 type TestTransport struct {
@@ -742,7 +742,7 @@ func registerNamedPairSource(t *testing.T) {
 
 import (
 	"context"
-	"github.com/iqhive/runtime.link/api"
+	"github.com/iqhive/iqlink/api"
 )
 
 type namedPairAPI struct {

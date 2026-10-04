@@ -5,9 +5,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/iqhive/runtime.link/api"
-	"github.com/iqhive/runtime.link/api/rest"
-	"github.com/iqhive/runtime.link/xyz"
+	"github.com/iqhive/iqlink/api"
+	"github.com/iqhive/iqlink/api/rest"
+	"github.com/iqhive/iqlink/xyz"
 )
 
 type Shape xyz.Tagged[any, struct {
@@ -17,7 +17,7 @@ type Shape xyz.Tagged[any, struct {
 }]
 
 type ShapeFilter struct {
-	Owner string          `json:"owner"`
+	Owner string            `json:"owner"`
 	Kind  xyz.TypeOf[Shape] `json:"kind,omitzero"`
 }
 

@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/iqhive/runtime.link/sql"
+	"github.com/iqhive/iqlink/sql"
 )
 
 type scopedNote struct {

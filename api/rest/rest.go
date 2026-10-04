@@ -179,11 +179,11 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/iqhive/runtime.link/api"
-	http_api "github.com/iqhive/runtime.link/api/internal/http"
-	"github.com/iqhive/runtime.link/api/internal/oas"
-	"github.com/iqhive/runtime.link/api/internal/rtags"
-	"github.com/iqhive/runtime.link/api/xray"
+	"github.com/iqhive/iqlink/api"
+	http_api "github.com/iqhive/iqlink/api/internal/http"
+	"github.com/iqhive/iqlink/api/internal/oas"
+	"github.com/iqhive/iqlink/api/internal/rtags"
+	"github.com/iqhive/iqlink/api/xray"
 )
 
 var debug = os.Getenv("DEBUG_REST") != "" || os.Getenv("DEBUG_API") != ""
@@ -443,7 +443,7 @@ func (spec *specification) loadOperation(fn api.Function) error {
 		argumentsNeedsMapping = true
 		fields := []reflect.StructField{}
 		for i, rule := range rules {
-			path := "github.com/iqhive/runtime.link/api/rest"
+			path := "github.com/iqhive/iqlink/api/rest"
 			if !strings.HasPrefix(rule, "_") {
 				path = ""
 			}

@@ -9,13 +9,13 @@ import (
 )
 
 // TransportError reports an argument sent by the caller that the transport
-// (such as [runtime.link/api/rest]) could not decode into the parameter of the
+// (such as [github.com/iqhive/iqlink/api/rest]) could not decode into the parameter of the
 // function being called, so the call was rejected before it was made. It is always the caller's to fix, so it maps to
 // a 400.
 //
 // Its Error is safe to show the caller: it is written only from the API's own
 // description, being the parameter's name and (where the underlying failure is
-// one runtime.link recognises) what a valid value looks like. The underlying
+// one iqlink recognises) what a valid value looks like. The underlying
 // failure is written for a Go developer, may quote internal type names or the
 // value sent, and is only reachable via Unwrap, for logs.
 type TransportError struct {
@@ -41,7 +41,7 @@ func (e *TransportError) StatusHTTP() int { return 400 }
 func (e *TransportError) Unwrap() error { return e.Err }
 
 // transportHint describes what a valid value looks like for the decoding
-// failures runtime.link recognises, else "". Every hint here is fixed text or
+// failures iqlink recognises, else "". Every hint here is fixed text or
 // is drawn from the wire representation (JSON field names and kinds), never
 // from the failure's own message or the Go types involved, as that is what
 // makes a [TransportError] safe to show the caller. Add to it with that in mind.

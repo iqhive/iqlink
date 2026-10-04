@@ -2,8 +2,8 @@
 package amd64
 
 import (
-	"github.com/iqhive/runtime.link/api/call/internal/bin"
-	"github.com/iqhive/runtime.link/api/call/internal/bin/std/cpu"
+	"github.com/iqhive/iqlink/api/call/internal/bin"
+	"github.com/iqhive/iqlink/api/call/internal/bin/std/cpu"
 )
 
 const (

@@ -4,21 +4,21 @@ import (
 	"log"
 	"os"
 
-	"github.com/iqhive/runtime.link/api"
-	"github.com/iqhive/runtime.link/api/cmdl"
-	"github.com/iqhive/runtime.link/api/rest"
+	"github.com/iqhive/iqlink/api"
+	"github.com/iqhive/iqlink/api/cmdl"
+	"github.com/iqhive/iqlink/api/rest"
 )
 
 // API specification structure, typically named API for general structures, may
 // be more suitably named Functions, Library or Command when the API is
-// restricted to a specific runtime.link layer. Any Go comments in the source
+// restricted to a specific iqlink layer. Any Go comments in the source
 // are intended to document design notes and ideas. This leaves Go struct tags
 // for recording developer-facing documentation.
 type API struct {
 	api.Specification `api:"Example" lib:"libexample" cmd:"example"
-        is an example of a runtime.link API structure.` // this section of the tag contains documentation.
+        is an example of an iqlink API structure.` // this section of the tag contains documentation.
 
-	// HelloWorld includes runtime.link tags that specify how the function is called
+	// HelloWorld includes iqlink tags that specify how the function is called
 	// across different link-layers. Typically, a context.Context argument and error
 	// return value should be included here, they are omitted here for brevity.
 	HelloWorld func() string `args:"hello_world" link:"example_helloworld func()$char" rest:"GET /hello_world"

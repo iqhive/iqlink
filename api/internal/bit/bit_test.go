@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/iqhive/runtime.link/api/internal/bit"
+	"github.com/iqhive/iqlink/api/internal/bit"
 )
 
 func BenchmarkIO(b *testing.B) {

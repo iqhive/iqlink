@@ -7,8 +7,8 @@ import (
 	"math"
 	"testing"
 
-	"github.com/iqhive/runtime.link/api/internal/bit"
-	"github.com/iqhive/runtime.link/api/jrpc"
+	"github.com/iqhive/iqlink/api/internal/bit"
+	"github.com/iqhive/iqlink/api/jrpc"
 )
 
 func BenchmarkJSON(t *testing.B) {

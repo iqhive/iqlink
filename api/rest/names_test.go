@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/iqhive/runtime.link/api"
+	"github.com/iqhive/iqlink/api"
 )
 
 func newFn(t *testing.T, typ any, args, outs []string, tag string) api.Function {
@@ -206,7 +206,7 @@ func TestDuplicateRouteDetectionDoesNotCorruptPath(t *testing.T) {
 		One struct {
 			Two struct {
 				Three struct {
-					Foo func() `rest:"GET /x"`
+					Foo   func() `rest:"GET /x"`
 					Alpha struct {
 						A func() `rest:"GET /x"`
 					}

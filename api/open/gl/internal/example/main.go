@@ -3,7 +3,7 @@ package main
 import (
 	"unsafe"
 
-	"github.com/iqhive/runtime.link/api/open/gl"
+	"github.com/iqhive/iqlink/api/open/gl"
 )
 
 const vertexShaderSource = `#version 330 core

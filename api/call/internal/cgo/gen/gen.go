@@ -11,7 +11,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/iqhive/runtime.link/api/call/internal/cgo"
+	"github.com/iqhive/iqlink/api/call/internal/cgo"
 )
 
 func main() {

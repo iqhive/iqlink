@@ -1,5 +1,5 @@
-// Package api defines the standard runtime reflection representation for a runtime.link API structure.
-// The functions in this package are typically only used to implement runtime.link layers (ie. drivers)
+// Package api defines the standard runtime reflection representation for an iqlink API structure.
+// The functions in this package are typically only used to implement iqlink layers (ie. drivers)
 // so that the layer can either host, or link functions specified within the structure.
 package api
 
@@ -16,29 +16,29 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/iqhive/runtime.link/api/xray"
+	"github.com/iqhive/iqlink/api/xray"
 )
 
-// Specification should be embedded in all runtime.link API structures.
+// Specification should be embedded in all iqlink API structures.
 type Specification = WithSpecification
 
 type WithSpecification interface {
 	specification()
 }
 
-// Linker that can link a runtime.link API structure up to a 'Host'
+// Linker that can link an iqlink API structure up to a 'Host'
 // implementation using the specified 'Connection' configuration.
 type Linker[Host any, Conn any] interface {
 	Link(Structure, Host, Conn) error
 }
 
-// Exporter that can export a runtime.link API structure using the
+// Exporter that can export an iqlink API structure using the
 // specified 'Options' configuration.
 type Exporter[Host any, Options any] interface {
 	Export(Structure, Options) (Host, error)
 }
 
-// Import the given runtime.link API structure using the given transport, host
+// Import the given iqlink API structure using the given transport, host
 // and transport-specific configuration. If an error is returned by the linker
 // all functions will be stubbed with an error implementation that returns the
 // error returned by the linker.
@@ -53,7 +53,7 @@ func Import[API, Host, Conn any](T Linker[Host, Conn], host Host, conn Conn) API
 	return api
 }
 
-// Export the given runtime.link API structure using the given exporter and
+// Export the given iqlink API structure using the given exporter and
 // configuration.
 func Export[API, H, Options any](exporter Exporter[H, Options], impl API, options Options) (H, error) {
 	return exporter.Export(StructureOf(impl), options)
@@ -94,9 +94,9 @@ type Host interface {
 	host()
 }
 
-// Structure is the runtime reflection representation for a runtime.link
+// Structure is the runtime reflection representation for an iqlink
 // API structure. In Go source, these are represented using Go structs with
-// at least one function field. These runtime.link API structures can be be
+// at least one function field. These iqlink API structures can be be
 // nested in order to organise functions into sensible namespaces.
 //
 // For example:
@@ -144,7 +144,7 @@ type Structure struct {
 	Instances map[reflect.Type][]reflect.Type
 }
 
-// StructureOf returns a reflected runtime.link API structure
+// StructureOf returns a reflected iqlink API structure
 // for the given value, if it is not a struct (or a pointer to a
 // struct), only the name will be available.
 //
@@ -319,7 +319,7 @@ func (s *Structure) link(path []string) {
 	}
 }
 
-// Function is a runtime reflection representation of a runtime.link
+// Function is a runtime reflection representation of an iqlink
 // function.
 type Function struct {
 	Name string

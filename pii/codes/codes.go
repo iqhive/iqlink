@@ -1,6 +1,6 @@
 package codes
 
-import "github.com/iqhive/runtime.link/pii"
+import "github.com/iqhive/iqlink/pii"
 
 type (
 	// Location code, such as a ZIP code, area code or a postal code.
