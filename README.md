@@ -1,4 +1,4 @@
-# iqlink &nbsp;[![Go Reference](https://pkg.go.dev/badge/github.com/iqhive/iqlink.svg)](https://pkg.go.dev/github.com/iqhive/iqlink)
+# iqlink &nbsp;[![Go Reference](https://pkg.go.dev/badge/github.com/iqhive/iqlink.svg)](https://pkg.go.dev/github.com/iqhive/iqlink) [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
 <p align="center">
   <img src="docs/hero.svg" width="836" alt="Animated terminal: one Go API specification is served by rest.Handler and called through a typed client, where GET /greet/gopher returns hello, gopher and GET /add?a=2&amp;b=40 returns 42; the same struct then runs as the hello command line and, linked to a stub, returns not implemented.">
@@ -185,3 +185,15 @@ linters-settings:
 ## Roadmap
 
 * Support for additional linkers, such as `mock`, `grpc`, `soap`, `jrpc`, `xrpc`, and `sock`.
+
+## Licence and trademarks
+
+The first-party software in this repository is licensed under the
+[Apache License, Version 2.0](LICENSE). Third-party components and any
+files with separate licence notices remain subject to their respective
+terms.
+
+The Apache licence does not grant general permission to use IQ Hive
+trademarks. See [Trademarks](TRADEMARKS.md).
+
+See [Contributing](CONTRIBUTING.md) for contribution terms and guidance.

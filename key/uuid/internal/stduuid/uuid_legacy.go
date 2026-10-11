@@ -19,8 +19,7 @@
 // changes, update this copy to match the new go1.XX tag.
 
 // Copyright 2026 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
+// Use of this source code is governed by the standard Go 3-claude BSD license.
 
 // Package stduuid provides support for generating and manipulating UUIDs.
 //

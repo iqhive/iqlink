@@ -10,7 +10,7 @@
 !*.yml
 !*.yaml
 !*.S
-!License
+!LICENSE
 !Makefile
 !go.mod
 !go.sum
