@@ -213,7 +213,7 @@ type ResponseFormat xyz.Tagged[any, struct {
 var ResponseFormats = xyz.AccessorFor(ResponseFormat.Values)
 
 type Tool xyz.Tagged[any, struct {
-	Function Function `json:"function?type=function"`
+	Function xyz.Case[Tool, Function] `json:"function?type=function"`
 }]
 
 var Tools = xyz.AccessorFor(Tool.Values)
