@@ -29,14 +29,14 @@ func Example() {
 	//   POST /orders -> 200
 	//     bought 2 for $19.98, charge ch_1
 	//   POST /orders -> 409
-	//     error 409: Conflict
+	//     error 409: there are not enough copies in stock.
 	//     server log: 502: charge 7500: card declined (provider code 51)
 	//   POST /orders -> 502
 	//     error 502: Bad Gateway
 	//   POST /orders -> 404
 	//     error 404: not found
 	//   POST /admin/stock/978-0-000-00002-2/5 -> 403
-	//     error 403: Forbidden
+	//     error 403: access denied
 	// staff:
 	//   POST /admin/stock/978-0-000-00002-2/5 -> 204
 	//   GET /books/978-0-000-00002-2 -> 200
@@ -46,7 +46,7 @@ func Example() {
 	//     error 501: Not Implemented
 	// anonymous:
 	//   GET /books/978-0-000-00001-1 -> 401
-	//     error 401: Unauthorized
+	//     error 401: the request has no valid bearer token.
 }
 
 // Without HTTP in between, callers get the declared error values themselves.
