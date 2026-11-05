@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# Merges github.com/quaadgras/runtime.link main into this fork through the
-# qqmerge branch, then fast-forwards main to it.
+# Merges github.com/iqhive/runtime.link main into this fork through the
+# runtime-link-merge branch, then fast-forwards main to it.
 #
 # .github/workflows/upstream-sync.yml runs this from a copy in $RUNNER_TEMP, so
 # nothing the merge or Codex changes in the checkout can alter it.
 #
 #   sync.sh prepare      start the merge and decide whether Codex is needed
 #   sync.sh package      bundle the merge Codex resolved for the verify job
-#   sync.sh finalize     check the result, commit it and push qqmerge and main
-#   sync.sh save-failed  push a failed attempt to qqmerge-failed for a human
+#   sync.sh finalize     check the result, commit it and push runtime-link-merge and main
+#   sync.sh save-failed  push a failed attempt to runtime-link-merge-failed for a human
 #
 # Codex runs in the sync job, and its result is checked and pushed by a
 # separate verify job on a fresh runner: openai/codex-action's drop-sudo
@@ -16,13 +16,13 @@
 # go test stalls there.
 #
 # With TEST_BRANCH set, it merges that branch of origin instead of
-# quaadgras/main and pushes nothing, leaving the result in $RUNNER_TEMP.
+# runtimelink/main and pushes nothing, leaving the result in $RUNNER_TEMP.
 set -euo pipefail
 
-UPSTREAM_URL=${UPSTREAM_URL:-https://github.com/quaadgras/runtime.link.git}
+UPSTREAM_URL=${UPSTREAM_URL:-https://github.com/iqhive/runtime.link.git}
 MODULE=github.com/iqhive/iqlink
 NAME=iqlink
-SRC=quaadgras/main
+SRC=runtimelink/main
 [ -z "${TEST_BRANCH:-}" ] || SRC=origin/$TEST_BRANCH
 HERE=$(cd "$(dirname "$0")" && pwd)
 TMP=${RUNNER_TEMP:?}
@@ -116,7 +116,7 @@ merge_translated() {
 	fi
 	echo "$up" >"$gitdir/MERGE_HEAD"
 	echo "no-ff" >"$gitdir/MERGE_MODE"
-	echo "Merge remote-tracking branch '$SRC' into qqmerge" >"$gitdir/MERGE_MSG"
+	echo "Merge remote-tracking branch '$SRC' into runtime-link-merge" >"$gitdir/MERGE_MSG"
 }
 
 # normalize rewrites upstream's module path to the fork's in imports and doc
@@ -182,7 +182,7 @@ check_attribution() {
 
 commit_message() {
 	{
-		echo "Merge remote-tracking branch '$SRC' into qqmerge"
+		echo "Merge remote-tracking branch '$SRC' into runtime-link-merge"
 		echo
 		echo "Upstream commits:"
 		git log --reverse --format='- %h %s' "${BASE:?}..${UPSTREAM:?}"
@@ -200,8 +200,8 @@ prepare() {
 	if [ -n "${TEST_BRANCH:-}" ]; then
 		git fetch -q --no-tags origin "$TEST_BRANCH:refs/remotes/$SRC"
 	else
-		git remote add quaadgras "$UPSTREAM_URL" 2>/dev/null || git remote set-url quaadgras "$UPSTREAM_URL"
-		git fetch -q --no-tags quaadgras main
+		git remote add runtimelink "$UPSTREAM_URL" 2>/dev/null || git remote set-url runtimelink "$UPSTREAM_URL"
+		git fetch -q --no-tags runtimelink main
 	fi
 
 	local up base conflicted reason=""
@@ -212,14 +212,14 @@ prepare() {
 		return
 	fi
 	if [ "${GITHUB_EVENT_NAME:-}" = schedule ] &&
-		[ "$(git rev-parse -q --verify origin/qqmerge-failed^2)" = "$up" ]; then
-		say "The last attempt to merge quaadgras/main ${up:0:7} failed (see branch qqmerge-failed) and upstream hasn't moved since. Run the workflow manually to retry."
+		[ "$(git rev-parse -q --verify origin/runtime-link-merge-failed^2)" = "$up" ]; then
+		say "The last attempt to merge runtimelink/main ${up:0:7} failed (see branch runtime-link-merge-failed) and upstream hasn't moved since. Run the workflow manually to retry."
 		out pending false
 		return
 	fi
-	if git rev-parse -q --verify origin/qqmerge >/dev/null &&
-		! git merge-base --is-ancestor origin/qqmerge HEAD; then
-		echo "::error::origin/qqmerge has commits that aren't in main. Merge them into main or drop them, then rerun."
+	if git rev-parse -q --verify origin/runtime-link-merge >/dev/null &&
+		! git merge-base --is-ancestor origin/runtime-link-merge HEAD; then
+		echo "::error::origin/runtime-link-merge has commits that aren't in main. Merge them into main or drop them, then rerun."
 		exit 1
 	fi
 	base=$(git merge-base HEAD "$up")
@@ -236,7 +236,7 @@ prepare() {
 	(cd "$mods" && go mod download) || echo "::warning::Couldn't download upstream's modules."
 
 	cp -a .github "$TMP/github-before"
-	git switch -q -C qqmerge
+	git switch -q -C runtime-link-merge
 	merge_translated "$base" "$up"
 	conflicted=$(unmerged)
 	normalize
@@ -285,7 +285,7 @@ finalize() {
 	identity
 	if [ "${NEEDS_CODEX:-false}" = true ]; then
 		git fetch -q "$TMP/merge.bundle" refs/heads/codex-result:refs/heads/codex-result
-		git switch -q -C qqmerge codex-result
+		git switch -q -C runtime-link-merge codex-result
 		MERGED_ON=HEAD^1
 		normalize
 		git add -A
@@ -301,18 +301,18 @@ finalize() {
 	fi
 	if [ -n "${TEST_BRANCH:-}" ]; then
 		keep_test_output
-		say "Test run: merged $SRC ${up:0:7} into a local qqmerge and pushed nothing. The merge is in the upstream-sync-test artifact."
+		say "Test run: merged $SRC ${up:0:7} into a local runtime-link-merge and pushed nothing. The merge is in the upstream-sync-test artifact."
 		report
 		return
 	fi
 	git switch -q main
-	git merge -q --ff-only qqmerge
-	push --atomic origin qqmerge main
-	if git rev-parse -q --verify origin/qqmerge-failed >/dev/null; then
-		push origin :qqmerge-failed || true
+	git merge -q --ff-only runtime-link-merge
+	push --atomic origin runtime-link-merge main
+	if git rev-parse -q --verify origin/runtime-link-merge-failed >/dev/null; then
+		push origin :runtime-link-merge-failed || true
 	fi
 
-	say "Merged quaadgras/main ${up:0:7} into qqmerge and main."
+	say "Merged runtimelink/main ${up:0:7} into runtime-link-merge and main."
 	report
 }
 
@@ -343,8 +343,8 @@ save_failed() {
 		say "Test run: couldn't merge $SRC ${up:0:7}; pushed nothing. The attempt is in the upstream-sync-test artifact."
 		return
 	fi
-	push --force origin HEAD:refs/heads/qqmerge-failed
-	say "Couldn't merge quaadgras/main ${up:0:7} automatically. The attempt is on branch qqmerge-failed."
+	push --force origin HEAD:refs/heads/runtime-link-merge-failed
+	say "Couldn't merge runtimelink/main ${up:0:7} automatically. The attempt is on branch runtime-link-merge-failed."
 }
 
 case "${1:-}" in
