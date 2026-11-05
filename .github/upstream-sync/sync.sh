@@ -50,6 +50,16 @@ keep_test_output() {
 	cp "$LOG" "$TMP/upstream-sync.log" 2>/dev/null || true
 }
 
+# Restore only changed paths, including additions and deletions. Some local
+# configuration files may not exist in either side of a later merge.
+preserve_local_config() {
+	git diff --name-only -z HEAD -- .github .agents ci_test.go >"$TMP/local-config-paths"
+	if [ -s "$TMP/local-config-paths" ]; then
+		git restore --source=HEAD --staged --worktree \
+			--pathspec-from-file="$TMP/local-config-paths" --pathspec-file-nul
+	fi
+}
+
 # translate rewrites upstream's names to the fork's in the checkout it runs in.
 # The merge applies it to upstream's side, both the merge base and the commit
 # being merged, so the fork's renames don't show up as conflicts. It mirrors
@@ -240,8 +250,8 @@ prepare() {
 	cp -a .github "$TMP/github-before"
 	git switch -q -C runtime-link-merge
 	merge_translated "$base" "$up"
-	# The fork owns its workflow configuration; do not merge upstream jobs.
-	git restore --source=HEAD --staged --worktree -- .github
+	# Keep local workflows, their repository-specific tests, and agent configuration.
+	preserve_local_config
 	conflicted=$(unmerged)
 	normalize
 
@@ -338,8 +348,8 @@ save_failed() {
 	local up=${UPSTREAM:?}
 	identity
 	if [ -f "$(git rev-parse --git-dir)/MERGE_HEAD" ]; then
-		git restore --source=HEAD --staged --worktree -- .github
-		git add -A -- . ':(exclude).github'
+		preserve_local_config
+		git add -A -- . ':(exclude).github' ':(exclude).agents' ':(exclude)ci_test.go'
 		git commit -q --no-verify -m "WIP: failed merge of $SRC ${up:0:7}" -m "See ${RUN_URL:-the upstream-sync workflow run}."
 	fi
 	[ "$(git rev-parse -q --verify HEAD^2)" = "$up" ] || return 0
