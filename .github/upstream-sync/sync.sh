@@ -60,7 +60,8 @@ keep_test_output() {
 translate() {
 	local f
 	git ls-files -z '*go.mod' | while IFS= read -r -d '' f; do
-		sed -i -e "s#^module runtime\.link\$#module $MODULE#" \
+		sed -i -e "s#github\.com/iqhive/runtime\.link#$MODULE#g" \
+			-e "s#^module runtime\.link\$#module $MODULE#" \
 			-e "s#^module runtime\.link/#module $MODULE/#" \
 			-e "s#^replace runtime\.link =>#replace $MODULE =>#" \
 			-e "s#^\(\s*\)runtime\.link v#\1$MODULE v#" "$f"
@@ -68,6 +69,7 @@ translate() {
 	done
 	{ git grep -lz 'runtime\.link' -- '*.go' '*.md' || true; } | xargs -0r sed -i \
 		-e '/^\/\/go:wasmimport runtime\.link /b' \
+		-e "s#github\.com/iqhive/runtime\.link/#$MODULE/#g" \
 		-e "s#pkg\.go\.dev/badge/runtime\.link\.svg#pkg.go.dev/badge/$MODULE.svg#g" \
 		-e "s#pkg\.go\.dev/runtime\.link\b#pkg.go.dev/$MODULE#g" \
 		-e "s#runtime\.link/#$MODULE/#g" \
@@ -138,7 +140,7 @@ checks() {
 	local fail=0 unformatted t
 	if [ -n "$(unmerged)" ]; then echo "unmerged paths remain"; fail=1; fi
 	if git grep -nE '^(<<<<<<<|>>>>>>>)( |$)' -- .; then echo "conflict markers remain"; fail=1; fi
-	if git grep -n '"runtime\.link/' -- '*.go'; then echo "upstream module path remains"; fail=1; fi
+	if git grep -nE '"(github\.com/iqhive/)?runtime\.link/' -- '*.go'; then echo "upstream module path remains"; fail=1; fi
 	unformatted=$(changed_go | xargs -r gofmt -s -l 2>&1 || true)
 	if [ -n "$unformatted" ]; then echo "not gofmt -s formatted: $unformatted"; fail=1; fi
 	go build ./... || fail=1
@@ -238,6 +240,8 @@ prepare() {
 	cp -a .github "$TMP/github-before"
 	git switch -q -C runtime-link-merge
 	merge_translated "$base" "$up"
+	# The fork owns its workflow configuration; do not merge upstream jobs.
+	git restore --source=HEAD --staged --worktree -- .github
 	conflicted=$(unmerged)
 	normalize
 
@@ -334,6 +338,7 @@ save_failed() {
 	local up=${UPSTREAM:?}
 	identity
 	if [ -f "$(git rev-parse --git-dir)/MERGE_HEAD" ]; then
+		git restore --source=HEAD --staged --worktree -- .github
 		git add -A
 		git commit -q --no-verify -m "WIP: failed merge of $SRC ${up:0:7}" -m "See ${RUN_URL:-the upstream-sync workflow run}."
 	fi

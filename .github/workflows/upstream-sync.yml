@@ -33,7 +33,7 @@ concurrency:
 
 jobs:
   sync:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
       GOTOOLCHAIN: local
@@ -136,7 +136,7 @@ jobs:
   verify:
     needs: sync
     if: needs.sync.outputs.needs_codex == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
       GOTOOLCHAIN: local

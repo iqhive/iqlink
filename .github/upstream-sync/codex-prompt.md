@@ -2,7 +2,7 @@ You are finishing an automated merge of upstream changes into a Go repository.
 
 ## Situation
 
-- This checkout is github.com/iqhive/iqlink, a fork of github.com/iqhive/runtime.link. Upstream's Go module path is `runtime.link`; the fork's is `github.com/iqhive/iqlink`.
+- This checkout is github.com/iqhive/iqlink, a fork of github.com/iqhive/runtime.link. Upstream's Go module path is `github.com/iqhive/runtime.link` (formerly `runtime.link`); the fork's is `github.com/iqhive/iqlink`.
 - A merge of upstream commit {{UPSTREAM}} into the fork is in progress (`git merge --no-commit`). The merge base is {{BASE}}.
 - Before merging, upstream's side (the merge base and the commit being merged) had upstream's module path and project name rewritten to the fork's with sed, so the fork's renames don't show up as conflicts: the conflicts that remain are real. `git diff {{UPSTREAM}} upstream-translated` shows that rewrite.
 - You were called because {{REASON}}.
@@ -18,7 +18,7 @@ Useful read-only commands:
 ## Tasks
 
 1. **Resolve every conflict.** Keep the intent of both sides: upstream's fixes and features, and the fork's own changes. Where both sides added different code at the same place (new tests, functions or cases), keep both. Remove every conflict marker.
-2. **Use the fork's module path and name.** Imports of `runtime.link/...`, including those inside Go string literals that hold source code, must be `github.com/iqhive/iqlink/...`. The fork is called iqlink: where a comment, doc link or Markdown file names this project, use `iqlink` or `[github.com/iqhive/iqlink/...]`. Keep references to the upstream repository github.com/iqhive/runtime.link, leave the `//go:wasmimport runtime.link` lines in api/wasm/import_wasm.go as they are, and don't change the `module` line in any go.mod.
+2. **Use the fork's module path and name.** Imports of `github.com/iqhive/runtime.link/...` or `runtime.link/...`, including those inside Go string literals that hold source code, must be `github.com/iqhive/iqlink/...`. The fork is called iqlink: where a comment, doc link or Markdown file names this project, use `iqlink` or `[github.com/iqhive/iqlink/...]`. Keep references to the upstream repository github.com/iqhive/runtime.link, leave the `//go:wasmimport runtime.link` lines in api/wasm/import_wasm.go as they are, and don't change the `module` line in any go.mod.
 3. **Bug-scrub the new upstream code.** Review `git diff {{BASE}} {{UPSTREAM}}`, as it now sits in the fork, for correctness bugs: wrong logic, unhandled errors, nil dereferences, races, resource leaks, unbounded reads, injection or escaping bugs, and incompatibilities with the fork's own changes. Fix the real bugs you are confident about with the smallest change that fits the surrounding code, and add a test for a fix when practical. Don't refactor, rename, reformat or make style changes, and leave the fork's existing code alone unless the merge breaks it.
 4. **Make it build and pass.** `go build ./...`, `go vet -structtag=false ./...` and `go test ./...` must pass. The Go toolchain and modules are already downloaded and there is no network access, so don't add dependencies. Don't delete, skip or weaken a test to make it pass unless the test itself is wrong, and say so if you do.
 
