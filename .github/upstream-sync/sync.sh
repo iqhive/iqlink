@@ -339,7 +339,7 @@ save_failed() {
 	identity
 	if [ -f "$(git rev-parse --git-dir)/MERGE_HEAD" ]; then
 		git restore --source=HEAD --staged --worktree -- .github
-		git add -A
+		git add -A -- . ':(exclude).github'
 		git commit -q --no-verify -m "WIP: failed merge of $SRC ${up:0:7}" -m "See ${RUN_URL:-the upstream-sync workflow run}."
 	fi
 	[ "$(git rev-parse -q --verify HEAD^2)" = "$up" ] || return 0
